@@ -8,7 +8,7 @@ i2c = board.I2C()
 ads = ADS1115(i2c)
 
 # Note that setting gain will affect the raw ADC value but not the voltage.
-ads.gain = 2 # {2/3, 1, 2, 4, 8, 16}
+ads.gain = 1 # {2/3, 1, 2, 4, 8, 16}
 ads.mode = ads1x15.Mode.CONTINUOUS # Mode.SINGLE
 # >>> ads.gain
 # 1
@@ -35,6 +35,6 @@ chan_2 = AnalogIn(ads, ads1x15.Pin.A3) # MAX4466
 print("{:>5}\t{:>5}".format("raw", "v"))
 
 while True:
-    print(f"MAX9814 {chan_1.value:>5}\t{chan_1.voltage:>5.3f}")
+#    print(f"MAX9814 {chan_1.value:>5}\t{chan_1.voltage:>5.3f}")
     print(f"MAX4466 {chan_2.value:>5}\t{chan_2.voltage:>5.3f}")
     time.sleep(0.005)
