@@ -46,7 +46,7 @@ ads.mode = ads1x15.Mode.CONTINUOUS # Mode.SINGLE
 
 # Create single-ended input on channel 0
 # chan_1 = AnalogIn(ads, ads1x15.Pin.A1) # MAX9814
-chan = AnalogIn(ads, ads1x15.Pin.A1) # MAX4466
+chan = AnalogIn(ads, ads1x15.Pin.A3) # MAX4466
 
 # Create differential input between channel 0 and 1
 # diff_chan_1_2 = AnalogIn(ads, ads1x15.Pin.A0, ads1x15.Pin.A1)
