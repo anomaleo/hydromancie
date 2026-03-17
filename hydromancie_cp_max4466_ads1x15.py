@@ -62,6 +62,7 @@ while (time.time() - start_time) < RECORD_SECONDS:
     # Read the raw 10-bit value (0-1023) and convert to a 16-bit integer for better WAV quality
     # The MCP3008 is 10-bit, so this conversion might need adjustment based on your specific ADC
     raw_value = chan.value
+    print(chan.value)
     # Convert 10-bit (0-1023) to 16-bit (0-65535)
     # audio_value = int(raw_value * 64) 
     # Append the sample data as bytes
