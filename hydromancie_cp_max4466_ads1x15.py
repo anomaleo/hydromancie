@@ -10,9 +10,9 @@ import digitalio
 from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
 
 # Configuration
-SAMPLE_RATE = 16000 # Samples per second (Hz)
+SAMPLE_RATE = 1024 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
-WAVE_OUTPUT_FILENAME = "recorded_audio.wav"
+WAVE_OUTPUT_FILENAME = "1_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
 SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
@@ -45,8 +45,8 @@ ads.mode = ads1x15.Mode.CONTINUOUS # Mode.SINGLE
 # ads = ADS.ADS1115(i2c, address=0x49)
 
 # Create single-ended input on channel 0
-# chan_1 = AnalogIn(ads, ads1x15.Pin.A2) # MAX9814
-chan_1 = AnalogIn(ads, ads1x15.Pin.A3) # MAX4466
+# chan_1 = AnalogIn(ads, ads1x15.Pin.A1) # MAX9814
+chan_1 = AnalogIn(ads, ads1x15.Pin.A2) # MAX4466
 
 # Create differential input between channel 0 and 1
 # diff_chan_1_2 = AnalogIn(ads, ads1x15.Pin.A0, ads1x15.Pin.A1)
