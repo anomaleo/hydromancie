@@ -4,9 +4,9 @@ import ADS1x15
 import wave
 import numpy as np
 
-SAMPLE_RATE = 2048 # Samples per second (Hz)
+SAMPLE_RATE = 1024 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
-WAVE_OUTPUT_FILENAME = "#4_noncp_recorded_audio.wav"
+WAVE_OUTPUT_FILENAME = "#5_noncp_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
 SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
