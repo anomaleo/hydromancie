@@ -4,20 +4,20 @@ import ADS1x15
 import wave
 import numpy as np
 
-SAMPLE_RATE = 8000 # Samples per second (Hz)
+SAMPLE_RATE = 16000 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
-WAVE_OUTPUT_FILENAME = "#1_noncp_recorded_audio.wav"
+WAVE_OUTPUT_FILENAME = "#2_noncp_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
 SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
 
-ADS = ADS1x15.ADS1015(1, 0x48)
+#ADS = ADS1x15.ADS1015(1, 0x48)
 ADS = ADS1x15.ADS1115(1, 0x48)
 print(os.path.basename(__file__))
 print("ADS1X15_LIB_VERSION: {}".format(ADS1x15.__version__))
 
 ADS.setGain(ADS.PGA_4_096V)
-ADS.setDataRate(ADS.DR_ADS111X_128)
+ADS.setDataRate(ADS.DR_ADS111X_860)
 ADS.setMode(ADS.MODE_CONTINUOUS)
 ADS.requestADC(3) 
 
