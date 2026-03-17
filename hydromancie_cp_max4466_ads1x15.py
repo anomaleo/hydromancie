@@ -10,7 +10,7 @@ import digitalio
 from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
 
 # Configuration
-SAMPLE_RATE = 8000 # Samples per second (Hz)
+SAMPLE_RATE = 860 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
 WAVE_OUTPUT_FILENAME = "maxrecorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
