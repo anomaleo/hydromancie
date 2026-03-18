@@ -10,9 +10,9 @@ import digitalio
 # from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
 
 # Configuration
-SAMPLE_RATE = 44100 # Samples per second (Hz)
+SAMPLE_RATE = 4000 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
-WAVE_OUTPUT_FILENAME = "#4_mcp_recorded_audio.wav"
+WAVE_OUTPUT_FILENAME = "#test4000_mcp_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
 SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
@@ -22,10 +22,10 @@ SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
 # Initialize SPI bus and the ADC - MCP3008 ADC 
 spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
-cs = digitalio.DigitalInOut(board.D5)
-mcp = MCP.MCP3008(spi, cs)
+cs = digitalio.DigitalInOut(board.D8)
+mcp = MCP.MCP3008(spi, cs, baudrate=1350000)
 
-chan = AnalogIn(mcp, MCP.P6) # MAX9814
+chan = AnalogIn(mcp, MCP.P7) # MAX9814
 
 # Note that setting gain will affect the raw ADC value but not the voltage.
 # ads.gain = 16 # {2/3, 1, 2, 4, 8, 16}
