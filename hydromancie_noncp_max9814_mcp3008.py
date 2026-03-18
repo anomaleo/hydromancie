@@ -11,9 +11,9 @@ import digitalio
 import mcp3008
 
 # Configuration
-SAMPLE_RATE = 4000 # Samples per second (Hz)
+SAMPLE_RATE = 8000 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
-WAVE_OUTPUT_FILENAME = "#1a_mcp_recorded_audio.wav"
+WAVE_OUTPUT_FILENAME = "#1d_mcp_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
 SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
@@ -77,8 +77,8 @@ print("Recording stopped.")
 
 # Convert the list of samples to a numpy array of int16 type
 # The wave module expects data in a specific format
-audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
-# audio_data = np.array(frames, dtype=np.int16)
+# audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
+audio_data = np.array(frames, dtype=np.int16)
 
 # Save the recorded data as a WAV file
 with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
