@@ -23,7 +23,7 @@ SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 # Initialize SPI bus and the ADC - MCP3008 ADC 
 spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
 cs = digitalio.DigitalInOut(board.D8)
-mcp = MCP.MCP3008(spi, cs, baudrate=1000000)
+mcp = MCP.MCP3008(spi, cs)
 
 chan = AnalogIn(mcp, MCP.P6) # MAX9814
 
@@ -69,7 +69,7 @@ while (time.time() - start_time) < RECORD_SECONDS:
     # print(audio_value)
     # Append the sample data as bytes
     frames.append(audio_value) #(audio_value) 
-    time.sleep(1/SAMPLE_RATE)
+    # time.sleep(1/SAMPLE_RATE)
 print("Recording stopped.")
 
 # Convert the list of samples to a numpy array of int16 type
