@@ -11,7 +11,7 @@ import digitalio
 import mcp3008
 
 # Configuration
-SAMPLE_RATE = 8000 # Samples per second (Hz)
+SAMPLE_RATE = 4000 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
 WAVE_OUTPUT_FILENAME = "#1_mcp_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
