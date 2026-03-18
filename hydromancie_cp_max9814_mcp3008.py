@@ -3,32 +3,33 @@ import time
 import board
 import wave
 import numpy as np
-# import adafruit_mcp3xxx.mcp3008 as MCP
-# from adafruit_mcp3xxx.analog_in import AnalogIn
+import adafruit_mcp3xxx.mcp3008 as MCP
+from adafruit_mcp3xxx.analog_in import AnalogIn
 import busio
 import digitalio
-from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
+# from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
 
 # Configuration
 SAMPLE_RATE = 8000 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
-WAVE_OUTPUT_FILENAME = "max_9898recorded_audio.wav"
+WAVE_OUTPUT_FILENAME = "#1_mcp_8K_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
 SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
 # Create the I2C bus and the ADC - ADS1x15 ADC
-i2c = board.I2C()
-ads = ADS1115(i2c)
+# i2c = board.I2C()
+# ads = ADS1115(i2c)
 
 # Initialize SPI bus and the ADC - MCP3008 ADC 
-#spi = busio.SPI(clock=digitalio.Pin.board.SCK, MISO=digitalio.Pin.board.MISO, MOSI=digitalio.Pin.board.MOSI)
-#cs = digitalio.Pin.board.D8  # Chip select pin (GPIO 8)
-#mcp = MCP.MCP3008(spi, cs)
-#chan = AnalogIn(mcp, MCP.P0) # Read from channel 0
+spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
+cs = digitalio.DigitalInOut(board.D5)
+mcp = MCP.MCP3008(spi, cs)
+
+chan = AnalogIn(mcp, MCP.P7) # MAX9814
 
 # Note that setting gain will affect the raw ADC value but not the voltage.
-ads.gain = 16 # {2/3, 1, 2, 4, 8, 16}
-ads.mode = ads1x15.Mode.CONTINUOUS # Mode.SINGLE
+# ads.gain = 16 # {2/3, 1, 2, 4, 8, 16}
+# ads.mode = ads1x15.Mode.CONTINUOUS # Mode.SINGLE
 # >>> ads.gain
 # 1
 # >>> chan.value, chan.voltage
@@ -46,7 +47,7 @@ ads.mode = ads1x15.Mode.CONTINUOUS # Mode.SINGLE
 
 # Create single-ended input on channel 0
 # chan_1 = AnalogIn(ads, ads1x15.Pin.A1) # MAX9814
-chan = AnalogIn(ads, ads1x15.Pin.A2) # MAX4466
+# chan = AnalogIn(ads, ads1x15.Pin.A2) # MAX4466
 
 # Create differential input between channel 0 and 1
 # diff_chan_1_2 = AnalogIn(ads, ads1x15.Pin.A0, ads1x15.Pin.A1)
@@ -65,6 +66,7 @@ while (time.time() - start_time) < RECORD_SECONDS:
     # print(chan.value)
     # Convert 10-bit (0-1023) to 16-bit (0-65535)
     # audio_value = int(raw_value * 64) 
+    # print(audio_value)
     # Append the sample data as bytes
     frames.append(raw_value) #(audio_value) 
 
@@ -72,7 +74,8 @@ print("Recording stopped.")
 
 # Convert the list of samples to a numpy array of int16 type
 # The wave module expects data in a specific format
-audio_data = np.array(frames, dtype=np.int16)
+audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
+#np.array(frames, dtype=np.int16)
 
 # Save the recorded data as a WAV file
 with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
