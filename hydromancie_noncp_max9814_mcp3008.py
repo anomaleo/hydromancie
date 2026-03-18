@@ -13,7 +13,7 @@ import mcp3008
 # Configuration
 SAMPLE_RATE = 4000 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
-WAVE_OUTPUT_FILENAME = "#1_mcp_recorded_audio.wav"
+WAVE_OUTPUT_FILENAME = "#1a_mcp_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
 SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
@@ -65,7 +65,7 @@ start_time = time.time()
 while (time.time() - start_time) < RECORD_SECONDS:
     # Read the raw 10-bit value (0-1023) and convert to a 16-bit integer for better WAV quality
     # The MCP3008 is 10-bit, so this conversion might need adjustment based on your specific ADC
-    raw_value = adc.read([mcp3008.CH7]) # chan.value
+    raw_value = adc.read([mcp3008.CH6]) # chan.value
     # print(raw_value[0])
     # Convert 10-bit (0-1023) to 16-bit (0-65535)
     audio_value = int(raw_value[0] * 64) 
@@ -77,8 +77,8 @@ print("Recording stopped.")
 
 # Convert the list of samples to a numpy array of int16 type
 # The wave module expects data in a specific format
-# audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
-audio_data = np.array(frames, dtype=np.int16)
+audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
+# audio_data = np.array(frames, dtype=np.int16)
 
 # Save the recorded data as a WAV file
 with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
