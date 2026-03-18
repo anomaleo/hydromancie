@@ -25,7 +25,7 @@ spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
 cs = digitalio.DigitalInOut(board.D5)
 mcp = MCP.MCP3008(spi, cs)
 
-chan = AnalogIn(mcp, MCP.P7) # MAX9814
+chan = AnalogIn(mcp, MCP.P6) # MAX9814
 
 # Note that setting gain will affect the raw ADC value but not the voltage.
 # ads.gain = 16 # {2/3, 1, 2, 4, 8, 16}
