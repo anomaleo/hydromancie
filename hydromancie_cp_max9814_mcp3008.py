@@ -10,9 +10,9 @@ import digitalio
 # from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
 
 # Configuration
-SAMPLE_RATE = 44100 # Samples per second (Hz)
+SAMPLE_RATE = 4000 # Samples per second (Hz)
 RECORD_SECONDS = 10  # Recording duration in seconds
-WAVE_OUTPUT_FILENAME = "#test44100_mcp_recorded_audio.wav"
+WAVE_OUTPUT_FILENAME = "#test4000_mcp_recorded_audio.wav"
 NUM_CHANNELS = 1    # Mono recording
 SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
 
@@ -25,7 +25,7 @@ spi = busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI)
 cs = digitalio.DigitalInOut(board.D8)
 mcp = MCP.MCP3008(spi, cs, baudrate=1000000)
 
-chan = AnalogIn(mcp, MCP.P7) # MAX9814
+chan = AnalogIn(mcp, MCP.P6) # MAX9814
 
 # Note that setting gain will affect the raw ADC value but not the voltage.
 # ads.gain = 16 # {2/3, 1, 2, 4, 8, 16}
@@ -65,11 +65,11 @@ while (time.time() - start_time) < RECORD_SECONDS:
     raw_value = chan.value
     # print(chan.value)
     # Convert 10-bit (0-1023) to 16-bit (0-65535)
-    # audio_value = int(raw_value * 64) 
+    audio_value = int(raw_value * 64) 
     # print(audio_value)
     # Append the sample data as bytes
-    frames.append(raw_value) #(audio_value) 
-
+    frames.append(audio_value) #(audio_value) 
+    time.sleep(1/SAMPLE_RATE)
 print("Recording stopped.")
 
 # Convert the list of samples to a numpy array of int16 type
