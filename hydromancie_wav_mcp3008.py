@@ -14,7 +14,7 @@ from pydub import AudioSegment
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH_BYTES = 2
-SAMPLE_RATE = 8000
+SAMPLE_RATE = 16000
 DURATION = 5
 FILE_NAME = "#16000_mcp_audio"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
@@ -54,7 +54,7 @@ with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
     wf.setnchannels(NUM_CHANNELS)
     wf.setsampwidth(SAMPLE_WIDTH_BYTES)
     wf.setframerate(SAMPLE_RATE)
-    wf.setnframes(16000*5)
+    wf.setnframes(22050*5)
     wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
 
 print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
