@@ -13,7 +13,7 @@ from pydub import AudioSegment
 
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
-SAMPLE_WIDTH_BYTES = 1
+SAMPLE_WIDTH_BYTES = 2
 SAMPLE_RATE = 8000
 DURATION = 5
 FILE_NAME = "#8000_mcp_audio"
@@ -37,10 +37,10 @@ while (time.time() - start_time) < DURATION:
     raw_value = adc.read([mcp3008.CH7]) # chan.value
     # print(raw_value[0])
     # Convert 10-bit (0-1023) to 16-bit (0-65535)
-#    audio_value = int(raw_value[0] * 64) 
+    audio_value = int(raw_value[0] * 32) 
     # print(audio_value)
     # Append the sample data as bytes
-    frames.append(raw_value) #(audio_value) 
+    frames.append(audio_value) #(audio_value) 
 
 print("Recording stopped.")
 
