@@ -16,7 +16,7 @@ NUM_CHANNELS = 1
 SAMPLE_WIDTH_BYTES = 2
 SAMPLE_RATE = 8192
 DURATION = 5
-FILE_NAME = "#4000_mcp_audio"
+FILE_NAME = "#8192_mcp_audio"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
 MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 
@@ -54,7 +54,7 @@ with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
     wf.setnchannels(NUM_CHANNELS)
     wf.setsampwidth(SAMPLE_WIDTH_BYTES)
     wf.setframerate(SAMPLE_RATE)
-    wf.setnframes(SAMPLE_RATE * DURATION)
+    wf.setnframes((SAMPLE_RATE * DURATION)*2)
     wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
     wf.close()
 
