@@ -9,6 +9,12 @@ import numpy as np
 # import digitalio
 # from adafruit_ads1x15 import ADS1115, AnalogIn, ads1x15
 import mcp3008
+import spidev
+hydromancie = spidev.SpiDev()
+hydromancie.open(0,0)
+print(hydromancie.max_speed_hz)
+hydromancie.max_speed_hz = 1350000
+
 
 # Configuration
 SAMPLE_RATE = 8000 # Samples per second (Hz)
