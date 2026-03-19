@@ -31,24 +31,16 @@ max_amplitude = 32767
 
 frames = []
 start_time = time.time()
-
-for s in range(0, samples):
-    raw_value = adc.read([mcp3008.CH7])
-    # audio_value = int(raw_value[0] * 64)
-    frames.append(raw_value)
-    # time.sleep(1 / SAMPLE_RATE)
-    # print(s)
-
-#while (time.time() - start_time) < DURATION:
+while (time.time() - start_time) < DURATION:
     # Read the raw 10-bit value (0-1023) and convert to a 16-bit integer for better WAV quality
     # The MCP3008 is 10-bit, so this conversion might need adjustment based on your specific ADC
-#    raw_value = adc.read([mcp3008.CH7]) # chan.value
+    raw_value = adc.read([mcp3008.CH7]) # chan.value
     # print(raw_value[0])
     # Convert 10-bit (0-1023) to 16-bit (0-65535)
 #    audio_value = int(raw_value[0] * 64) 
     # print(audio_value)
     # Append the sample data as bytes
-#    frames.append(audio_value) #(audio_value) 
+    frames.append(raw_value) #(audio_value) 
 
 print("Recording stopped.")
 
@@ -62,7 +54,7 @@ with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
     wf.setnchannels(NUM_CHANNELS)
     wf.setsampwidth(SAMPLE_WIDTH_BYTES)
     wf.setframerate(SAMPLE_RATE)
-    wf.writeframes(audio_data.tobytes())
+    wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
 
 print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
 
