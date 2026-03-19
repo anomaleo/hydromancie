@@ -26,7 +26,7 @@ adc = mcp3008.MCP3008()
 # adc.read([mcp3008.CH0/6/7])
 
 print(f"Recording for {DURATION} seconds at {SAMPLE_RATE} Hz...")
-FRAMES = int(SAMPLE_RATE * DURATION)
+FRAMES = int(SAMPLE_RATE * DURATION) // 2
 max_amplitude = 32767
 
 frames = []
@@ -73,7 +73,7 @@ with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
     wf.setnchannels(NUM_CHANNELS)
     wf.setsampwidth(SAMPLE_WIDTH_BYTES)
     wf.setframerate(SAMPLE_RATE)
-    # wf.setnframes(FRAMES)
+    wf.setnframes(FRAMES)
     wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
     wf.close()
 
