@@ -26,29 +26,36 @@ adc = mcp3008.MCP3008()
 # adc.read([mcp3008.CH0/6/7])
 
 print(f"Recording for {DURATION} seconds at {SAMPLE_RATE} Hz...")
-num_sample = int(SAMPLE_RATE * DURATION)
+samples = int(SAMPLE_RATE * DURATION)
 max_amplitude = 32767
 
 frames = []
 start_time = time.time()
 
-while (time.time() - start_time) < DURATION:
+for s in range(0, samples):
+    raw_value = adc.read([mcp3008.CH7])
+    # audio_value = int(raw_value[0] * 64)
+    frames.append(raw_value)
+    # time.sleep(1 / SAMPLE_RATE)
+    # print(s)
+
+#while (time.time() - start_time) < DURATION:
     # Read the raw 10-bit value (0-1023) and convert to a 16-bit integer for better WAV quality
     # The MCP3008 is 10-bit, so this conversion might need adjustment based on your specific ADC
-    raw_value = adc.read([mcp3008.CH7]) # chan.value
+#    raw_value = adc.read([mcp3008.CH7]) # chan.value
     # print(raw_value[0])
     # Convert 10-bit (0-1023) to 16-bit (0-65535)
-    audio_value = int(raw_value[0] * 64) 
+#    audio_value = int(raw_value[0] * 64) 
     # print(audio_value)
     # Append the sample data as bytes
-    frames.append(audio_value) #(audio_value) 
+#    frames.append(audio_value) #(audio_value) 
 
 print("Recording stopped.")
 
 # Convert the list of samples to a numpy array of int16 type
 # The wave module expects data in a specific format
-audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
-# audio_data = np.array(frames, dtype=np.int16)
+# audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
+audio_data = np.array(frames, dtype=np.int16)
 
 # Save the recorded data as a WAV file
 with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
