@@ -37,7 +37,7 @@ while (time.time() - start_time) < DURATION:
     raw_value = adc.read([mcp3008.CH7]) # chan.value
     # print(raw_value[0])
     # Convert 10-bit (0-1023) to 16-bit (0-65535)
-    audio_value = int(raw_value[0] * 32) 
+    audio_value = int(raw_value[0] * 64) 
     # print(audio_value)
     # Append the sample data as bytes
     frames.append(audio_value) #(audio_value) 
@@ -46,8 +46,8 @@ print("Recording stopped.")
 
 # Convert the list of samples to a numpy array of int16 type
 # The wave module expects data in a specific format
-# audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
-audio_data = np.array(frames, dtype=np.int16)
+audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
+#audio_data = np.array(frames, dtype=np.int16)
 
 # Save the recorded data as a WAV file
 with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
