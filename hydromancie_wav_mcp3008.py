@@ -26,7 +26,7 @@ adc = mcp3008.MCP3008()
 # adc.read([mcp3008.CH0/6/7])
 
 print(f"Recording for {DURATION} seconds at {SAMPLE_RATE} Hz...")
-FRAMES = int(SAMPLE_RATE * DURATION) // 2
+FRAMES = int(SAMPLE_RATE * DURATION)
 max_amplitude = 32767
 
 frames = []
