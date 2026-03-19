@@ -54,7 +54,7 @@ with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
     wf.setnchannels(NUM_CHANNELS)
     wf.setsampwidth(SAMPLE_WIDTH_BYTES)
     wf.setframerate(SAMPLE_RATE)
-    wf.setnframes(22050*5)
+    wf.setnframes(44100*5)
     wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
 
 print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
