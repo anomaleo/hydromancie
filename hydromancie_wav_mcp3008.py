@@ -8,13 +8,13 @@ import mcp3008
 #hydromancie.open(0,0)
 #print(hydromancie.max_speed_hz)
 #hydromancie.max_speed_hz = 1350000
-from pydub import AudioSegment
+#from pydub import AudioSegment
 
 
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH_BYTES = 2
-SAMPLE_RATE = 4000
+SAMPLE_RATE = 8192
 DURATION = 5
 FILE_NAME = "#4000_mcp_audio"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
@@ -54,13 +54,14 @@ with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
     wf.setnchannels(NUM_CHANNELS)
     wf.setsampwidth(SAMPLE_WIDTH_BYTES)
     wf.setframerate(SAMPLE_RATE)
-    wf.setnframes(8000*5)
+    wf.setnframes(SAMPLE_RATE * DURATION)
     wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
+    wf.close()
 
 print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
 
-audio = AudioSegment.from_file(WAVE_OUTPUT_FILENAME, format="wav")
-audio.export(MP3_OUTPUT_FILENAME, format="mp3")
+#audio = AudioSegment.from_file(WAVE_OUTPUT_FILENAME, format="wav")
+#audio.export(MP3_OUTPUT_FILENAME, format="mp3")
 
 #while True:
 #    print(f"MAX9814 {chan_1.value:>5}\t{chan_1.voltage:>5.3f}")
