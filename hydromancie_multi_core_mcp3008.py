@@ -17,7 +17,7 @@ adc = mcp3008.MCP3008()
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH_BYTES = 2
-SAMPLE_RATE = 11025
+SAMPLE_RATE = 16000
 DURATION = 5
 FRAMES = int(SAMPLE_RATE * DURATION)
 MAX_AMPLITUDE = (2**15 - 1)
@@ -34,8 +34,8 @@ frames = []
 def do_the_right_thing(seconds, interval=1.0):
     start_time = time.perf_counter()
     #interval = 1 / SAMPLE_RATE
-    for i in range(int(seconds / interval)):
-    # for i in range(num_samples):
+    #for i in range(int(seconds / interval)):
+    for i in range(FRAMES):
         next_tick = start_time + (i +1) * interval
         # do_the_right_thing
         raw_value = adc.read([mcp3008.CH7])
