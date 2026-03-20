@@ -32,7 +32,7 @@ def do_the_right_thing(seconds, interval=1.0):
         next_tick = start_time + (i +1) * interval
         # do_the_right_thing
         raw_value = adc.read([mcp3008.CH7])
-        frames.append(raw_value[0])
+        frames.append((raw_value[0] / 1023) * max_amplitude)
         # Sleep until the next tick
         sleep_time = next_tick - time.perf_counter()
         #if sleep_time > 0:
@@ -62,21 +62,21 @@ print("Recording stopped. Frame len(", len(frames))
 # Convert the list of samples to a numpy array of int16 type
 # The wave module expects data in a specific format
 # audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
-#audio_data = np.array(frames, dtype=np.int16)
+audio_data = np.array(frames, dtype=np.int16)
 
 # SCIPY WAVE FILE WRITER
-# write(WAVE_OUTPUT_FILENAME, SAMPLE_RATE, audio_data)
+write(WAVE_OUTPUT_FILENAME, SAMPLE_RATE,audio_data)
 
 
 # Write to WAV file
-with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wavfile:
-    wavfile.setnchannels(NUM_CHANNELS)
-    wavfile.setsampwidth(SAMPLE_WIDTH_BYTES)
-    wavfile.setframerate(SAMPLE_RATE)
+#with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wavfile:
+    #wavfile.setnchannels(NUM_CHANNELS)
+   # wavfile.setsampwidth(SAMPLE_WIDTH_BYTES)
+  #  wavfile.setframerate(SAMPLE_RATE)
     # Pack the list of integers into a bytes object
-    for sample in frames:
+ #   for sample in frames:
         # '<h' specifies little-endian, signed short (2 bytes)
-        wavfile.writeframes(struct.pack('<h', sample))
+#        wavfile.writeframes(struct.pack('<h', sample))
 
 # Save the recorded data as a WAV file
 #with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
