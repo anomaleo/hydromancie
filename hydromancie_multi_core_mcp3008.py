@@ -17,7 +17,7 @@ adc = mcp3008.MCP3008()
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH_BYTES = 2
-SAMPLE_RATE = 11025
+SAMPLE_RATE = 16000
 DURATION = 5
 FRAMES = int(SAMPLE_RATE * DURATION)
 MAX_AMPLITUDE = (2**15 - 1)
@@ -47,6 +47,13 @@ def do_the_right_thing(seconds, interval=1.0):
         if sleep_time > 0:
             time.sleep(sleep_time)
 
+def do_it(t, inter):
+    start_time = time.time()
+    while(time.time() - start_time) < t: 
+        raw_value = adc.read([mcp3008.CH7])
+        frames.append((raw_value[0] / 1023) * MAX_AMPLITUDE)
+        time.sleep(inter)
+
 
 # HYDROMANIC MAIN ENTRY 
 if __name__ == "__main__":
@@ -62,8 +69,8 @@ if __name__ == "__main__":
         #mp.Process(target=do_the_right_thing, args=(do_data,)).start()
 
     print("TIME INTERVAL: ", 1 / SAMPLE_RATE)
-    do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
-
+    #do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
+    do_it(DURATION, (1 / SAMPLE_RATE))
     print("Recording stopped. Frame len(", len(frames))
 
     # Convert the list of samples to a numpy array of int16 type
