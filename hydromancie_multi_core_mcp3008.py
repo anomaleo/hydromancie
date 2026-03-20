@@ -27,15 +27,17 @@ FILE_NAME = "#C2W_" + str(SAMPLE_RATE) + "_FRAMETEST_perf__scipy_mcp_audio"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
 MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 
+do_data = [DURATION, (1 / SAMPLE_RATE)]
+
 # MCP3008 ADC DATA
 frames = []
 
 
 def do_the_right_thing(seconds, interval=1.0):
     start_time = time.perf_counter()
-    #interval = 1 / SAMPLE_RATE
-    #for i in range(int(seconds / interval)):
-    for i in range(FRAMES):
+
+    for i in range(int(seconds / interval )):
+    #for i in range(FRAMES):
         next_tick = start_time + (i +1) * interval
         # do_the_right_thing
         raw_value = adc.read([mcp3008.CH7])
@@ -53,11 +55,11 @@ if __name__ == "__main__":
 
     print(mp.cpu_count())
     #with mp.Pool(processes=4) as pool:
-        #pool.map(do_the_right_thing, (1 // SAMPLE_RATE))
+        #pool.map(do_the_right_thing, do_data)
     # with ProcessPoolExecutor(max_workers=mp.cpu_count) as executor:
         # executor.map(do_the_right_thing, (1 / SAMPLE_RATE))
     #for _ in range(mp.cpu_count()):
-        #mp.Process(target=do_the_right_thing, args=(DURATION,1/SAMPLE_RATE,)).start()
+        #mp.Process(target=do_the_right_thing, args=(do_data,)).start()
 
     print("TIME INTERVAL: ", 1 / SAMPLE_RATE)
     do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
