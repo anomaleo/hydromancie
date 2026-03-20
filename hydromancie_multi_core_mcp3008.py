@@ -69,8 +69,8 @@ if __name__ == "__main__":
         #mp.Process(target=do_the_right_thing, args=(do_data,)).start()
 
     print("TIME INTERVAL: ", 1 / SAMPLE_RATE)
-    #do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
-    do_it(DURATION, (1 / SAMPLE_RATE))
+    do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
+    #do_it(DURATION, (1 / SAMPLE_RATE))
     print("Recording stopped. Frame len(", len(frames))
 
     # Convert the list of samples to a numpy array of int16 type
