@@ -31,9 +31,9 @@ MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 frames = []
 
 
-def do_the_right_thing(seconds):
+def do_the_right_thing(seconds, interval=1.0):
     start_time = time.perf_counter()
-    interval = 1 / SAMPLE_RATE
+    #interval = 1 / SAMPLE_RATE
     for i in range(int(seconds / interval)):
     # for i in range(num_samples):
         next_tick = start_time + (i +1) * interval
