@@ -20,7 +20,7 @@ adc = mcp3008.MCP3008()
 # adc.read([mcp3008.CH0/6/7])
 
 print(f"Recording for {DURATION} seconds at {SAMPLE_RATE} Hz...")
-# FRAMES = int(SAMPLE_RATE * DURATION)
+FRAMES = int(SAMPLE_RATE * DURATION)
 max_amplitude = (2**15 - 1)
 num_samples = int(SAMPLE_RATE * DURATION)
 frames = []
@@ -65,27 +65,27 @@ print("Recording stopped. Frame len(", len(frames))
 audio_data = np.array(frames, dtype=np.int16)
 
 # SCIPY WAVE FILE WRITER
-write(WAVE_OUTPUT_FILENAME, SAMPLE_RATE,audio_data)
+# write(WAVE_OUTPUT_FILENAME, SAMPLE_RATE,audio_data)
 
 
 # Write to WAV file
 #with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wavfile:
-    #wavfile.setnchannels(NUM_CHANNELS)
-   # wavfile.setsampwidth(SAMPLE_WIDTH_BYTES)
+ #   wavfile.setnchannels(NUM_CHANNELS)
+    # wavfile.setsampwidth(SAMPLE_WIDTH_BYTES)
   #  wavfile.setframerate(SAMPLE_RATE)
     # Pack the list of integers into a bytes object
- #   for sample in frames:
+   # for sample in frames:
         # '<h' specifies little-endian, signed short (2 bytes)
-#        wavfile.writeframes(struct.pack('<h', sample))
+    #    wavfile.writeframes(struct.pack('<h', sample))
 
 # Save the recorded data as a WAV file
-#with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
-#    wf.setnchannels(NUM_CHANNELS)
-#    wf.setsampwidth(SAMPLE_WIDTH_BYTES)
-#    wf.setframerate(SAMPLE_RATE)
-    #wf.setnframes(FRAMES)
-#    wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
-#    wf.close()
+with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
+    wf.setnchannels(NUM_CHANNELS)
+    wf.setsampwidth(SAMPLE_WIDTH_BYTES)
+    wf.setframerate(SAMPLE_RATE)
+    wf.setnframes(FRAMES)
+    wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
+    wf.close()
 
 print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
 
