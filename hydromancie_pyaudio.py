@@ -9,7 +9,7 @@ CHANNELS = 1           # Number of channels
 BITRATE = 44100        # Audio Bitrate
 CHUNK_SIZE = 512       # Chunk size to 
 RECORDING_LENGTH = 10  # Recording Length in seconds
-WAVE_OUTPUT_FILENAME = "myrecording.wav"
+WAVE_OUTPUT_FILENAME = "usb-interface-20.wav"
 audio = pyaudio.PyAudio()
 
 info = audio.get_host_api_info_by_index(0)
