@@ -31,8 +31,9 @@ MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 frames = []
 
 
-def do_the_right_thing(seconds, interval=1.0):
+def do_the_right_thing(seconds):
     start_time = time.perf_counter()
+    interval = 1 / SAMPLE_RATE
     for i in range(int(seconds / interval)):
     # for i in range(num_samples):
         next_tick = start_time + (i +1) * interval
@@ -50,11 +51,15 @@ if __name__ == "__main__":
     print(f"Recording for {DURATION} seconds at {SAMPLE_RATE} Hz...")
 
     print(mp.cpu_count())
+    #with mp.Pool(processes=4) as pool:
+        #pool.map(do_the_right_thing, (1 // SAMPLE_RATE))
+    # with ProcessPoolExecutor(max_workers=mp.cpu_count) as executor:
+        # executor.map(do_the_right_thing, (1 / SAMPLE_RATE))
     for _ in range(mp.cpu_count()):
-        mp.Process(target=do_the_right_thing, args=(1 / SAMPLE_RATE,)).start()
+        mp.Process(target=do_the_right_thing, args=(DURATION,)).start()
 
     print("TIME INTERVAL: ", 1 / SAMPLE_RATE)
-    do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
+    # do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
 
     print("Recording stopped. Frame len(", len(frames))
 
