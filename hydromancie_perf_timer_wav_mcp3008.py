@@ -14,9 +14,9 @@ import mcp3008
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH_BYTES = 2
-SAMPLE_RATE = 8192
+SAMPLE_RATE = 16000
 DURATION = 5
-FILE_NAME = "#8192_perf_mcp_audio"
+FILE_NAME = "#2W_16000_perf_mcp_audio"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
 MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 
@@ -26,7 +26,7 @@ adc = mcp3008.MCP3008()
 # adc.read([mcp3008.CH0/6/7])
 
 print(f"Recording for {DURATION} seconds at {SAMPLE_RATE} Hz...")
-# FRAMES = int(SAMPLE_RATE * DURATION)
+FRAMES = int(SAMPLE_RATE * DURATION)
 max_amplitude = 32767
 
 frames = []
@@ -73,7 +73,7 @@ with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
     wf.setnchannels(NUM_CHANNELS)
     wf.setsampwidth(SAMPLE_WIDTH_BYTES)
     wf.setframerate(SAMPLE_RATE)
-    #wf.setnframes(FRAMES)
+    wf.setnframes(FRAMES)
     wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
     wf.close()
 
