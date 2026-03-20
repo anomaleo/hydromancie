@@ -45,6 +45,7 @@ def do_the_right_thing(seconds, interval=1.0):
         if sleep_time > 0:
             time.sleep(sleep_time)
 
+
 # HYDROMANIC MAIN ENTRY 
 if __name__ == "__main__":
 
@@ -55,11 +56,11 @@ if __name__ == "__main__":
         #pool.map(do_the_right_thing, (1 // SAMPLE_RATE))
     # with ProcessPoolExecutor(max_workers=mp.cpu_count) as executor:
         # executor.map(do_the_right_thing, (1 / SAMPLE_RATE))
-    for _ in range(mp.cpu_count()):
-        mp.Process(target=do_the_right_thing, args=(DURATION,)).start()
+    #for _ in range(mp.cpu_count()):
+        #mp.Process(target=do_the_right_thing, args=(DURATION,1/SAMPLE_RATE,)).start()
 
     print("TIME INTERVAL: ", 1 / SAMPLE_RATE)
-    # do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
+    do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
 
     print("Recording stopped. Frame len(", len(frames))
 
