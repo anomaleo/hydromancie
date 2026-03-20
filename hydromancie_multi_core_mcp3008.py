@@ -47,7 +47,8 @@ def do_the_right_thing(seconds, interval=1.0):
 # HYDROMANIC MAIN ENTRY 
 if __name__ == "__main__":
 
-
+    print(mp.cpu_count())
+    #for _ in range(mp.cpu_count()):
 
     print(f"Recording for {DURATION} seconds at {SAMPLE_RATE} Hz...")
 
