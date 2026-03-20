@@ -1,3 +1,6 @@
+# sudo arecord -f cd -Dhw:3 | aplay -Dhw:3
+# speaker-test -c2
+
 import pyaudio
 import wave
 
