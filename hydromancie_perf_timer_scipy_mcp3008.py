@@ -8,9 +8,9 @@ import mcp3008
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH_BYTES = 2
-SAMPLE_RATE = 44100
+SAMPLE_RATE = 22050
 DURATION = 5
-FILE_NAME = "#C2W_44100_FRAMETEST_perf__scipy_mcp_audio"
+FILE_NAME = "#C2W_22050_FRAMETEST_perf__scipy_mcp_audio"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
 MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 
@@ -27,16 +27,16 @@ frames = []
 
 def do_the_right_thing(seconds, interval=1.0):
     start_time = time.perf_counter()
-#    for i in range(int(seconds / interval)):
-    for i in range(num_samples):
+    for i in range(int(seconds / interval)):
+    # for i in range(num_samples):
         next_tick = start_time + (i +1) * interval
         # do_the_right_thing
         raw_value = adc.read([mcp3008.CH7])
         frames.append((raw_value[0] / 1023) * max_amplitude)
         # Sleep until the next tick
         sleep_time = next_tick - time.perf_counter()
-        #if sleep_time > 0:
-        #    time.sleep(sleep_time)
+        if sleep_time > 0:
+            time.sleep(sleep_time)
 
 print("TIME INTERVAL: ", 1 / SAMPLE_RATE)
 do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
