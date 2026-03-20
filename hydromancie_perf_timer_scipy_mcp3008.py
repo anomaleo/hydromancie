@@ -65,7 +65,7 @@ print("Recording stopped. Frame len(", len(frames))
 audio_data = np.array(frames, dtype=np.int16)
 
 # SCIPY WAVE FILE WRITER
-# write(WAVE_OUTPUT_FILENAME, SAMPLE_RATE,audio_data)
+write(WAVE_OUTPUT_FILENAME, SAMPLE_RATE, audio_data)
 
 
 # Write to WAV file
@@ -79,13 +79,13 @@ audio_data = np.array(frames, dtype=np.int16)
     #    wavfile.writeframes(struct.pack('<h', sample))
 
 # Save the recorded data as a WAV file
-with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
-    wf.setnchannels(NUM_CHANNELS)
-    wf.setsampwidth(SAMPLE_WIDTH_BYTES)
-    wf.setframerate(SAMPLE_RATE)
-    wf.setnframes(FRAMES)
-    wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
-    wf.close()
+#with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
+#    wf.setnchannels(NUM_CHANNELS)
+#    wf.setsampwidth(SAMPLE_WIDTH_BYTES)
+#    wf.setframerate(SAMPLE_RATE)
+#    wf.setnframes(FRAMES)
+#    wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
+#    wf.close()
 
 print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
 
