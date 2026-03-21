@@ -110,7 +110,7 @@ if __name__ == "__main__":
         
         # OVERRIDE AUDIO-FILE FRAMERATE
         csound = sound._spawn(sound.raw_data, overrides={
-            "frame_rate": int(sound.frame_rate * 0.8) # factor
+            "frame_rate": int(sound.frame_rate * 0.9) # factor
         })
 
         csound = csound.set_frame_rate(SAMPLE_RATE)
