@@ -16,14 +16,14 @@ adc = mcp3008.MCP3008()
 
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
-SAMPLE_WIDTH_BYTES = 1
-SAMPLE_RATE = 16000
+SAMPLE_WIDTH_BYTES = 2
+SAMPLE_RATE = 16384
 DURATION = 5
 FRAMES = int(SAMPLE_RATE * DURATION)
 MAX_AMPLITUDE = (2**15 - 1)
 
 # FILE OUTPUT 
-FILE_NAME = "#C2W_ONE" + str(SAMPLE_RATE) + "_FRAMETEST_perf__scipy_mcp_audio"
+FILE_NAME = "#C2W_" + str(SAMPLE_RATE) + "_FRAMETEST_perf__scipy_mcp_audio"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
 MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 
@@ -33,7 +33,7 @@ do_data = [DURATION, (1 / SAMPLE_RATE)]
 frames = []
 
 
-def do_the_right_thing(seconds, interval=1.0):
+def do_the_right_thing(seconds=DURATION, interval=(1/SAMPLE_RATE)):
     start_time = time.perf_counter()
 
     for i in range(int(seconds / interval )):
@@ -61,13 +61,14 @@ if __name__ == "__main__":
     print(f"Recording for {DURATION} seconds at {SAMPLE_RATE} Hz...")
 
     print(mp.cpu_count())
-    #with mp.Pool(processes=4) as pool:
-        #pool.map(do_the_right_thing, do_data)
+    #with mp.Pool(processes=1) as pool:
+        #pool.map(do_the_right_thing)
     # with ProcessPoolExecutor(max_workers=mp.cpu_count) as executor:
         # executor.map(do_the_right_thing, (1 / SAMPLE_RATE))
     #for _ in range(mp.cpu_count()):
-        #mp.Process(target=do_the_right_thing, args=(do_data,)).start()
-
+        #mpProcess = mp.Process(target=do_the_right_thing, args=(DURATION, (1 / SAMPLE_RATE), )).start()
+    
+    # mpProcess.join()
     print("TIME INTERVAL: ", 1 / SAMPLE_RATE)
     do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
     #do_it(DURATION, (1 / SAMPLE_RATE))
