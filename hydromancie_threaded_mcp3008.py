@@ -28,8 +28,6 @@ FILE_NAME = "#C2W_" + str(SAMPLE_RATE) + "_FRAMETEST_perf__scipy_mcp_audio"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
 MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 
-do_data = [DURATION, (1 / SAMPLE_RATE)]
-
 # MCP3008 ADC DATA
 frames = []
 
@@ -65,29 +63,30 @@ def do_it(t, inter):
 if __name__ == "__main__":
 
     print(f"INIT AUDIO SAMPLING THREAD: {DURATION} Seconds @ {SAMPLE_RATE} Hz.")
-    sampling = threading.Thread(target=do_the_right_thing).start()
-    # print(mp.cpu_count())
-    # mpProcess.join()
+    sample = threading.Thread(target=do_the_right_thing)
+    sample.start()
+# print(mp.cpu_count())
+    # sampling.join()
 
-    try:
-        print(f"MAIN THREAD YIELDS FOR {DURATION} Seconds")
-        busy_wait = time.time()
-        #do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
-        #do_it(DURATION, (1 / SAMPLE_RATE))
-        #time.sleep(DURATION)
-        print(f"MAIN THREAD WAIT: {time.time() - busy_wait} Seconds")
+    # try:
+    print(f"MAIN THREAD YIELDS FOR {DURATION} Seconds")
+    busy_wait = time.time()
+    sample.join()
+    #do_the_right_thing(DURATION, (1 / SAMPLE_RATE))
+    #do_it(DURATION, (1 / SAMPLE_RATE))
+    #time.sleep(DURATION)
+    print(f"MAIN THREAD WAIT: {time.time() - busy_wait} Seconds")
 
-    except KeyboardInterrupt:
-        print("MAIN THREAD KEYBOARD INTERRUPTION")
+    # except KeyboardInterrupt:
+    # print("MAIN THREAD KEYBOARD INTERRUPTION")
 
-    finally:
-        print("SAMPLING COMPLETE: AUDIO THREAD JOIN")
-        # sampling.join()
+    # finally:
+    print("SAMPLING COMPLETE: AUDIO THREAD JOIN")
    
-        # Convert the list of samples to a numpy array of int16 type
-        # The wave module expects data in a specific format
-        # audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
-        audio_data = np.array(frames, dtype=np.int16)
+    # Convert the list of samples to a numpy array of int16 type
+    # The wave module expects data in a specific format
+    # audio_data = np.array(np.clip(frames, -32768, 32767),dtype=np.int16)
+    audio_data = np.array(frames, dtype=np.int16)
 
         # SCIPY WAVE FILE WRITER
         #write(WAVE_OUTPUT_FILENAME, SAMPLE_RATE, audio_data)
@@ -96,13 +95,13 @@ if __name__ == "__main__":
         # wavio.write(WAVE_OUTPUT_FILENAME, audio_data, int(SAMPLE_RATE), int(SAMPLE_WIDTH_BYTES), scale=None)
     
         # Save the recorded data as a WAV file
-        with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
-            wf.setnchannels(NUM_CHANNELS)
-            wf.setsampwidth(SAMPLE_WIDTH)
-            wf.setframerate(SAMPLE_RATE)
-            wf.setnframes(FRAMES)
-            wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
-            wf.close()
+    with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
+        wf.setnchannels(NUM_CHANNELS)
+        wf.setsampwidth(SAMPLE_WIDTH)
+        wf.setframerate(SAMPLE_RATE)
+        wf.setnframes(FRAMES)
+        wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
+        wf.close()
 
-        print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
+    print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
 
