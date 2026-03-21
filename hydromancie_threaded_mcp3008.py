@@ -20,7 +20,7 @@ NUM_CHANNELS = 1
 SAMPLE_WIDTH = 2
 SAMPLE_RATE = 16384
 DURATION = 5
-FRAMES = int(SAMPLE_RATE * DURATION)
+FRAMES = int(SAMPLE_RATE * DURATION + 2048)
 MAX_AMPLITUDE = (2**15 - 1)
 
 # FILE OUTPUT 
@@ -73,7 +73,7 @@ def done_the_right_thing():
         wf.setnchannels(NUM_CHANNELS)
         wf.setsampwidth(SAMPLE_WIDTH)
         wf.setframerate(SAMPLE_RATE)
-        wf.setnframes(FRAMES+2048)
+        wf.setnframes(FRAMES)
         wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
         wf.close()
 
