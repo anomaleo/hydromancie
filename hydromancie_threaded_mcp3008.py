@@ -104,13 +104,37 @@ if __name__ == "__main__":
 
     print(f"MAIN THREAD WAIT: {time.time() - busy_wait} Seconds")
 
-    if SAMPLE_RATE >= 16000:
+    if 22050 < SAMPLE_RATE >= 16000:
         print(f"AUDIO_FILE FRAMERATE CORRECTION FOR {SAMPLE_RATE} RECORDINGS")
         sound = AudioSegment.from_file(WAVE_OUTPUT_FILENAME)
         
         # OVERRIDE AUDIO-FILE FRAMERATE
         csound = sound._spawn(sound.raw_data, overrides={
             "frame_rate": int(sound.frame_rate * 0.8) # factor
+        })
+
+        csound = csound.set_frame_rate(SAMPLE_RATE)
+        csound.export("cs"+WAVE_OUTPUT_FILENAME, format="wav")
+    
+    elif 44100 < SAMPLE_RATE >= 22050:
+        print(f"AUDIO_FILE FRAMERATE CORRECTION FOR {SAMPLE_RATE} RECORDINGS")
+        sound = AudioSegment.from_file(WAVE_OUTPUT_FILENAME)
+        
+        # OVERRIDE AUDIO-FILE FRAMERATE
+        csound = sound._spawn(sound.raw_data, overrides={
+            "frame_rate": int(sound.frame_rate * 0.6) # factor
+        })
+
+        csound = csound.set_frame_rate(SAMPLE_RATE)
+        csound.export("cs"+WAVE_OUTPUT_FILENAME, format="wav")
+
+    elif SAMPLE_RATE >= 44100:
+        print(f"AUDIO_FILE FRAMERATE CORRECTION FOR {SAMPLE_RATE} RECORDINGS")
+        sound = AudioSegment.from_file(WAVE_OUTPUT_FILENAME)
+        
+        # OVERRIDE AUDIO-FILE FRAMERATE
+        csound = sound._spawn(sound.raw_data, overrides={
+            "frame_rate": int(sound.frame_rate * 0.4) # factor
         })
 
         csound = csound.set_frame_rate(SAMPLE_RATE)
