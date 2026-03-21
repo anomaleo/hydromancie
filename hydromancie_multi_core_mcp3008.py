@@ -42,6 +42,7 @@ def do_the_right_thing(seconds=DURATION, interval=(1/SAMPLE_RATE)):
         # do_the_right_thing
         raw_value = adc.read([mcp3008.CH7])
         frames.append((raw_value[0] / 1023) * MAX_AMPLITUDE)
+        time.sleep(1/SAMPLE_RATE)
         # Sleep until the next tick
         sleep_time = next_tick - time.perf_counter()
         if sleep_time > 0:
