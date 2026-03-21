@@ -19,7 +19,7 @@ adc = mcp3008.MCP3008()
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH = 2
-SAMPLE_RATE = 44100
+SAMPLE_RATE = 11025
 DURATION = 5
 FRAMES = int(SAMPLE_RATE * DURATION)
 MAX_AMPLITUDE = (2**15 - 1)
@@ -36,19 +36,19 @@ frames = []
 def do_the_right_thing(): #(seconds=DURATION, interval=(1/SAMPLE_RATE)):
     seconds = DURATION
     interval = (1 / SAMPLE_RATE)
-    start_time = time.perf_counter()
+    # start_time = time.perf_counter()
 
     for i in range(int(seconds / interval )):
     #for i in range(FRAMES):
-        next_tick = start_time + (i +1) * interval
+        # next_tick = start_time + (i +1) * interval
         # do_the_right_thing
         raw_value = adc.read([mcp3008.CH7])
         frames.append((raw_value[0] / 1023) * MAX_AMPLITUDE)
 #        time.sleep(1/SAMPLE_RATE)
         # Sleep until the next tick
-        sleep_time = next_tick - time.perf_counter()
-        if sleep_time > 0:
-            time.sleep(sleep_time)
+        # sleep_time = next_tick - time.perf_counter()
+        # if sleep_time > 0:
+            # time.sleep(sleep_time)
     print(f"Number of Samples (Frames): {len(frames)}")
 
 
@@ -122,7 +122,7 @@ if __name__ == "__main__":
         
         # OVERRIDE AUDIO-FILE FRAMERATE
         csound = sound._spawn(sound.raw_data, overrides={
-            "frame_rate": int(sound.frame_rate * 0.6) # factor
+            "frame_rate": int(sound.frame_rate * 0.4) # factor
         })
 
         csound = csound.set_frame_rate(SAMPLE_RATE)
@@ -134,7 +134,7 @@ if __name__ == "__main__":
         
         # OVERRIDE AUDIO-FILE FRAMERATE
         csound = sound._spawn(sound.raw_data, overrides={
-            "frame_rate": int(sound.frame_rate * 0.4) # factor
+            "frame_rate": int(sound.frame_rate * 0.1) # factor
         })
 
         csound = csound.set_frame_rate(SAMPLE_RATE)
