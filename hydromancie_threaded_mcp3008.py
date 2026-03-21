@@ -19,13 +19,13 @@ adc = mcp3008.MCP3008()
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH = 2
-SAMPLE_RATE = int(44100)
+SAMPLE_RATE = int(8192)
 DURATION = 5
 FRAMES = int(SAMPLE_RATE * DURATION)
 MAX_AMPLITUDE = (2**15 - 1)
 
 # FILE OUTPUT 
-FILE_NAME = "#C2W_" + str(SAMPLE_RATE) + "_FRAMETEST_perf__scipy_mcp_audio"
+FILE_NAME = "#2W_" + str(SAMPLE_RATE) + "_FRAMETEST_MCP"
 WAVE_OUTPUT_FILENAME = FILE_NAME + ".wav"
 MP3_OUTPUT_FILENAME = FILE_NAME + ".mp3"
 
@@ -122,7 +122,7 @@ if __name__ == "__main__":
         
         # OVERRIDE AUDIO-FILE FRAMERATE
         csound = sound._spawn(sound.raw_data, overrides={
-            "frame_rate": int(sound.frame_rate * 0.4) # factor
+            "frame_rate": int(sound.frame_rate * 0.2) # factor
         })
 
         csound = csound.set_frame_rate(SAMPLE_RATE)
