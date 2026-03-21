@@ -8,7 +8,8 @@ import mcp3008
 # import wavio
 # import multiprocessing as mp 
 import threading
-
+from pydub import AudioSegment
+import audioop
 
 # Initialize SPI bus and the ADC - MCP3008 ADC 
 adc = mcp3008.MCP3008()
@@ -18,7 +19,7 @@ adc = mcp3008.MCP3008()
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH = 2
-SAMPLE_RATE = 11025
+SAMPLE_RATE = 16834
 DURATION = 5
 FRAMES = int(SAMPLE_RATE * DURATION)
 MAX_AMPLITUDE = (2**15 - 1)
@@ -102,3 +103,15 @@ if __name__ == "__main__":
     save.join()
 
     print(f"MAIN THREAD WAIT: {time.time() - busy_wait} Seconds")
+
+    if SAMPLE_RATE >= 16000:
+        print(f"AUDIO_FILE FRAMERATE CORRECTION FOR {SAMPLE_RATE} RECORDINGS")
+        sound = AudioSegment.from_file(WAVE_OUTPUT_FILENAME)
+        
+        # OVERRIDE AUDIO-FILE FRAMERATE
+        csound = sound._spawn(sound.raw_data, overrides={
+            "frame_rate": int(sound.frame_rate * 0.8) # factor
+        })
+
+        csound = csound.set_frame_rate(SAMPLE_RATE)
+        csound.export("cs"+WAVE_OUTPUT_FILENAME, format="wav")
