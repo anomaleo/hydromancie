@@ -19,7 +19,7 @@ adc = mcp3008.MCP3008()
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
 SAMPLE_WIDTH = 2
-SAMPLE_RATE = int(8192)
+SAMPLE_RATE = int(22050)
 DURATION = 5
 FRAMES = int(SAMPLE_RATE * DURATION)
 MAX_AMPLITUDE = (2**15 - 1)
@@ -122,7 +122,7 @@ if __name__ == "__main__":
         
         # OVERRIDE AUDIO-FILE FRAMERATE
         csound = sound._spawn(sound.raw_data, overrides={
-            "frame_rate": int(sound.frame_rate * 0.2) # factor
+            "frame_rate": int(sound.frame_rate * 0.08) # factor
         })
 
         csound = csound.set_frame_rate(SAMPLE_RATE)
