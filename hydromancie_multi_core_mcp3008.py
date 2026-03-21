@@ -2,9 +2,10 @@ import os
 import time
 import wave
 import numpy as np
-from scipy.io.wavfile import write
-import struct
+# from scipy.io.wavfile import write
+# import struct
 import mcp3008
+# import wavio
 import multiprocessing as mp 
 # import threading
 
@@ -16,7 +17,7 @@ adc = mcp3008.MCP3008()
 
 # DEFINE WAVFILE PARAMETERS
 NUM_CHANNELS = 1
-SAMPLE_WIDTH_BYTES = 2
+SAMPLE_WIDTH = 2
 SAMPLE_RATE = 16384
 DURATION = 5
 FRAMES = int(SAMPLE_RATE * DURATION)
@@ -83,10 +84,13 @@ if __name__ == "__main__":
     # SCIPY WAVE FILE WRITER
     #write(WAVE_OUTPUT_FILENAME, SAMPLE_RATE, audio_data)
 
+    # WAVIO WAVE FILE WRITER
+    # wavio.write(WAVE_OUTPUT_FILENAME, audio_data, int(SAMPLE_RATE), int(SAMPLE_WIDTH_BYTES), scale=None)
+    
     # Save the recorded data as a WAV file
     with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
         wf.setnchannels(NUM_CHANNELS)
-        wf.setsampwidth(SAMPLE_WIDTH_BYTES)
+        wf.setsampwidth(SAMPLE_WIDTH)
         wf.setframerate(SAMPLE_RATE)
         wf.setnframes(FRAMES)
         wf.writeframes(b''.join(audio_data)) # (frames.tobytes())
