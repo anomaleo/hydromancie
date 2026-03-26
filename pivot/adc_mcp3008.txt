@@ -1,0 +1,49 @@
+import time
+import wave
+import numpy as np
+import adafruit_mcp3xxx.mcp3008 as MCP
+from adafruit_mcp3xxx.analog_in import AnalogIn
+import busio
+import digitalio
+
+# Configuration
+SAMPLE_RATE = 44100 # Samples per second (Hz)
+RECORD_SECONDS = 5  # Recording duration in seconds
+WAVE_OUTPUT_FILENAME = "recorded_audio.wav"
+NUM_CHANNELS = 1    # Mono recording
+SAMPLE_WIDTH = 2    # 2 bytes for 16-bit audio (numpy 'int16')
+
+# Initialize SPI bus and the ADC
+spi = busio.SPI(clock=digitalio.Pin.board.SCK, MISO=digitalio.Pin.board.MISO, MOSI=digitalio.Pin.board.MOSI)
+cs = digitalio.Pin.board.D8  # Chip select pin (GPIO 8)
+mcp = MCP.MCP3008(spi, cs)
+chan = AnalogIn(mcp, MCP.P0) # Read from channel 0
+
+print(f"Recording for {RECORD_SECONDS} seconds at {SAMPLE_RATE} Hz...")
+
+frames = []
+start_time = time.time()
+
+while (time.time() - start_time) < RECORD_SECONDS:
+    # Read the raw 10-bit value (0-1023) and convert to a 16-bit integer for better WAV quality
+    # The MCP3008 is 10-bit, so this conversion might need adjustment based on your specific ADC
+    raw_value = chan.value
+    # Convert 10-bit (0-1023) to 16-bit (0-65535)
+    audio_value = int(raw_value * 64) 
+    # Append the sample data as bytes
+    frames.append(audio_value) 
+
+print("Recording stopped.")
+
+# Convert the list of samples to a numpy array of int16 type
+# The wave module expects data in a specific format
+audio_data = np.array(frames, dtype=np.int16)
+
+# Save the recorded data as a WAV file
+with [wave.open](https://docs.python.org) (WAVE_OUTPUT_FILENAME, 'wb') as wf:
+    wf.setnchannels(NUM_CHANNELS)
+    wf.setsampwidth(SAMPLE_WIDTH)
+    wf.setframerate(SAMPLE_RATE)
+    wf.writeframes(audio_data.tobytes())
+
+print(f"File '{WAVE_OUTPUT_FILENAME}' created successfully.")
