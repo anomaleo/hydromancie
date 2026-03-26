@@ -18,6 +18,7 @@ bcrypt==4.2.0
 binho-host-adapter==0.1.6
 blinker==1.9.0
 certifi==2025.1.31
+cffi==2.0.0
 chardet==5.2.0
 charset-normalizer==3.4.2
 clint==0.5.1
@@ -56,6 +57,7 @@ pillow==11.1.0
 platformdirs==4.3.7
 pooch==1.8.2
 PyAudio==0.2.14
+pycparser==3.0
 pycryptodomex==3.20.0
 pydub==0.25.1
 pyftdi==0.57.1
@@ -80,6 +82,8 @@ rpi_ws281x==5.0.0
 scipy==1.15.3
 setuptools==78.1.1
 smbus2==0.4.3
+sounddevice==0.5.5
+soundfile==0.13.1
 spidev==3.6
 ssh-import-id==5.10
 sysv_ipc==1.2.0
