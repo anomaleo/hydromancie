@@ -6,7 +6,7 @@ import wave
 
 FORMAT = pyaudio.paInt16
 CHANNELS = 1           # Number of channels
-BITRATE = 44100        # Audio Bitrate
+BITRATE = 16000        # Audio Bitrate
 CHUNK_SIZE = 512       # Chunk size to 
 RECORDING_LENGTH = 10  # Recording Length in seconds
 WAVE_OUTPUT_FILENAME = "usb-interface-20.wav"
