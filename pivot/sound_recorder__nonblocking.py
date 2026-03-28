@@ -72,7 +72,7 @@ if __name__ == '__main__':
             recorders.append(d["index"])
 
 
-    recorder = Recorder(samplerate=48_000, channels=1, device=0)
-    recorder.start_stream('demo')
+    recorder = Recorder(samplerate=48_000, channels=1, device=1)
+    recorder.start_stream('demo-1')
     time.sleep(3.0) 
     recorder.stop_stream()
