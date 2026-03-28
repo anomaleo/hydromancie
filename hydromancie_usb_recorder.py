@@ -7,6 +7,12 @@ import threading
 import numpy  # Make sure NumPy is loaded before it is used in the callback
 import soundfile as sf
 import sounddevice as sd
+sd.default.samplerate = 16000
+sd.default.channels = 1
+sd.default.dtype = 'int16'
+print(sd.default.dtype)
+print(sd.default.samplerate) 
+print(sd.default.channels)
 assert numpy  # avoid "imported but unused" message (W0611)
 
 
@@ -69,7 +75,8 @@ if __name__ == '__main__':
     for d in devices:
         if "USB Audio Device".lower() in d["name"].lower():
             #recorders.append(d["index"])
-            recorders.append(Recorder(samplerate=44_100, channels=1, device=d["index"]))
+#            print(d.check_input_settings(d["index"]))
+            recorders.append(Recorder(samplerate=44100, channels=1, device=d["index"]))
             # recorder.start_stream('usb-recorder'+d["index"])
     print(recorders)            
     cnt = 0
