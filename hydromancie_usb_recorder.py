@@ -69,11 +69,18 @@ if __name__ == '__main__':
     for d in devices:
         if "USB Audio Device".lower() in d["name"].lower():
             #recorders.append(d["index"])
-            recorders.append(Recorder(samplerate=16_000, channels=1, device=d["index"])
+            recorders.append(Recorder(samplerate=44_100, channels=1, device=d["index"]))
             # recorder.start_stream('usb-recorder'+d["index"])
-            
+    print(recorders)            
+    cnt = 0
+    for r in recorders:
+        fname = "usb-recorder" + str(cnt)
+        r.start_stream(fname)
+        cnt += 1
     # recorder.start_stream('usb-recorder'+d["index"])
     # recorder = Recorder(samplerate=48_000, channels=1, device=1)
-    recorder.start_stream('demo-1')
-    time.sleep(3.0) 
-    recorder.stop_stream()
+    #recorder.start_stream('demo-1')
+    time.sleep(30.0) 
+    for r in recorders:
+        r.stop_stream()
+    #recorder.stop_stream()
