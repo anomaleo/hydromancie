@@ -7,7 +7,7 @@ import time
 # --- Configuration ---
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-RATE = 44100
+RATE = 16000
 CHUNK = 1024  # Frames per buffer
 RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "threaded_output.wav"
@@ -32,6 +32,7 @@ def record_audio_in_thread():
                     channels=CHANNELS,
                     rate=RATE,
                     input=True,
+                    input_device_index = device_id,
                     frames_per_buffer=CHUNK,
                     stream_callback=callback)
 
