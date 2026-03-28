@@ -19,11 +19,12 @@ class Recorder:
     https://github.com/spatialaudio/python-sounddevice/blob/0.4.5/examples/rec_unlimited.py
     """
 
-    def __init__(self, samplerate, channels):
+    def __init__(self, samplerate, channels, device):
 
         # audio parameters
         self.samplerate = samplerate
         self.channels = channels
+        self.device = device
 
         # private attributes
         self._queue = queue.Queue()
@@ -31,8 +32,8 @@ class Recorder:
         self._thread = None
 
     def start_stream(self, filename):
-        """Start recording audio stream in 'filename'.rf64"""
-        filename = f'{filename}.rf64'
+        """Start recording audio stream in 'filename'.wav"""
+        filename = f'{filename}.wav'
 
         if os.path.exists(filename):
             os.remove(filename)
@@ -40,7 +41,7 @@ class Recorder:
         def record_stream():
             # record from the default input audio
             with sf.SoundFile(filename, mode='x', samplerate=self.samplerate, channels=self.channels, subtype=None) as file:
-                with sd.InputStream(samplerate=self.samplerate, device=None, channels=self.channels, callback=self._fill_queue):
+                with sd.InputStream(samplerate=self.samplerate, device=self.device, channels=self.channels, callback=self._fill_queue):
                     while self._recording:
                         file.write(self._queue.get())
 
@@ -61,7 +62,17 @@ class Recorder:
             self._thread.join()
 
 if __name__ == '__main__':
-    recorder = Recorder(samplerate=48_000, channels=1)
-    recorder.start_stream(filename='demo')
+    devices = sd.query_devices()
+    print(devices)
+    print(len(devices))
+
+    recorders = []
+    for d in devices:
+        if "USB Audio Device".lower() in d["name"].lower():
+            recorders.append(d["index"])
+
+
+    recorder = Recorder(samplerate=48_000, channels=1, device=0)
+    recorder.start_stream('demo')
     time.sleep(3.0) 
     recorder.stop_stream()
