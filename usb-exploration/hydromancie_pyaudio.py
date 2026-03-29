@@ -1,50 +1,93 @@
-# sudo arecord -f cd -Dhw:3 | aplay -Dhw:3
-# speaker-test -c2
-
 import pyaudio
 import wave
+import threading
+import queue
+import time
 
+# --- Configuration ---
 FORMAT = pyaudio.paInt16
-CHANNELS = 1           # Number of channels
-BITRATE = 16000        # Audio Bitrate
-CHUNK_SIZE = 512       # Chunk size to 
-RECORDING_LENGTH = 10  # Recording Length in seconds
-WAVE_OUTPUT_FILENAME = "usb-interface-20.wav"
-audio = pyaudio.PyAudio()
+CHANNELS = 1
+RATE = 16000
+CHUNK = 1024  # Frames per buffer
+RECORD_SECONDS = 5
+WAVE_OUTPUT_FILENAME = "threaded_output.wav"
 
-info = audio.get_host_api_info_by_index(0)
-numdevices = info.get('deviceCount')
-for i in range(0, numdevices):
-    if (audio.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
-        print("Input Device id ", i, " - ", audio.get_device_info_by_host_api_device_index(0, i).get('name'))
-        print(audio.get_device_info_by_host_api_device_index(0, i).get('name'))
+# Queue for inter-thread communication
+audio_queue = queue.Queue()
+# Event to signal when recording should stop
+stop_recording_event = threading.Event()
 
-print("Which Input Device would you like to use?")
-device_id = int(input()) # Choose a device
-print("Recording using Input Device ID "+str(device_id))
+def callback(in_data, frame_count, time_info, status):
+    """This function is called continuously by the audio stream thread."""
+    audio_queue.put(in_data)
+    # If the stop event is set, stop the stream
+    if stop_recording_event.is_set():
+        return (in_data, pyaudio.paComplete)
+    return (in_data, pyaudio.paContinue)
 
-stream = audio.open(
-    format=FORMAT,
-    channels=CHANNELS,
-    rate=BITRATE,
-    input=True,
-    input_device_index = device_id,
-    frames_per_buffer=CHUNK_SIZE
-)
+def record_audio_in_thread():
+    """Manages the PyAudio stream in a separate thread."""
+    p = pyaudio.PyAudio()
+    stream = p.open(format=FORMAT,
+                    channels=CHANNELS,
+                    rate=RATE,
+                    input=True,
+                    # input_device_index = 0,
+                    frames_per_buffer=CHUNK,
+                    stream_callback=callback)
 
-recording_frames = []
+    print("--- Recording started in background thread. Press Ctrl+C to stop. ---")
 
-for i in range(int(BITRATE / CHUNK_SIZE * RECORDING_LENGTH)):
-    data = stream.read(CHUNK_SIZE)
-    recording_frames.append(data)
+    stream.start_stream()
 
-stream.stop_stream()
-stream.close()
-audio.terminate()
+    # Wait for the stop event to be set (e.g., via KeyboardInterrupt in the main thread)
+    while stream.is_active():
+        time.sleep(0.1)
 
-waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-waveFile.setnchannels(CHANNELS)
-waveFile.setsampwidth(audio.get_sample_size(FORMAT))
-waveFile.setframerate(BITRATE)
-waveFile.writeframes(b''.join(recording_frames))
-waveFile.close()
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
+    print("--- Recording stopped. ---")
+
+def write_wav_file(filename, frames):
+    """Writes the recorded frames to a WAV file."""
+    wf = wave.open(filename, 'wb')
+    wf.setnchannels(CHANNELS)
+    wf.setsampwidth(pyaudio.PyAudio().get_sample_size(FORMAT))
+    wf.setframerate(RATE)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+    print(f"--- Audio saved to {filename} ---")
+
+# --- Main execution ---
+if __name__ == "__main__":
+    recorded_frames = []
+    
+    # Start the audio recording thread
+    audio_thread = threading.Thread(target=record_audio_in_thread)
+    audio_thread.start()
+
+    try:
+        # The main thread can do other things or just wait
+        print(f"Main thread waiting for {RECORD_SECONDS} seconds...")
+        time.sleep(RECORD_SECONDS)
+        print("Main thread done waiting. Signaling stop.")
+
+    except KeyboardInterrupt:
+        print("Keyboard interrupt received in main thread.")
+
+    finally:
+        # Signal the recording thread to stop
+        stop_recording_event.set()
+        # Wait for the recording thread to finish
+        audio_thread.join()
+
+        # Retrieve all recorded data from the queue
+        while not audio_queue.empty():
+            recorded_frames.append(audio_queue.get())
+        
+        # Save the collected data to a file
+        if recorded_frames:
+            write_wav_file(WAVE_OUTPUT_FILENAME, recorded_frames)
+        else:
+            print("No audio frames recorded.")
