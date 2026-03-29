@@ -87,7 +87,7 @@ if __name__ == '__main__':
     # recorder.start_stream('usb-recorder'+d["index"])
     # recorder = Recorder(samplerate=48_000, channels=1, device=1)
     #recorder.start_stream('demo-1')
-    time.sleep(60.0) 
+    time.sleep(300.0) 
     for r in recorders:
         r.stop_stream()
     #recorder.stop_stream()
