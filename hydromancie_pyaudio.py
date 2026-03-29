@@ -32,7 +32,7 @@ def record_audio_in_thread():
                     channels=CHANNELS,
                     rate=RATE,
                     input=True,
-                    input_device_index = device_id,
+                    # input_device_index = 0,
                     frames_per_buffer=CHUNK,
                     stream_callback=callback)
 
