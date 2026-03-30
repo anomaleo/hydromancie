@@ -1,30 +1,36 @@
-#from picamera import Picamera
-
-#camera = PiCamera()
-#camera.resolution = (640, 480)
-#camera.start_recording('test_picamera.h264')
-#camera.wait_recording(60)
-#camera.stop_recording()
-
+import threading
 import time
-from io import BytesIO
 from picamera2 import Picamera2
-#from picamera2.encoders import H264Encoder, MJPEGEncoder
 
-stream = BytesIO()
-camera = Picamera2()
-camera.resolution(640, 480)
-camera.start_recording(stream, format='mp4', quality=23)
-#video_config = picam2.create_video_configuration(main={"size": (1280, 720), "format": "RGB888"},
-#                                                 lores={"size": (640, 480), "format": "YUV420"})
+# Create the camera object
+picam2 = Picamera2()
+config = picam2.create_video_configuration()
+picam2.configure(config)
+picam2.start()
 
-#picam2.configure(video_config)
+# Flag to stop the thread
+recording = True
 
-#encoder1 = H264Encoder(10000000)
-#encoder2 = MJPEGEncoder(10000000)
+def record_video():
+	"""Function to be run in a separate thread"""
+	picam2.start_recording("output.h264")
+	print("Recording started...")
+	while recording:
+		time.sleep(1) # Keep the thread alive
+	picam2.stop_recording()
+	print("Recording stopped.")
+	
+# Start the recording thread
+record_thread = threading.Thread(target=record_video)
+record_thread.start()
 
-# picam2.start_recording('test1.mp4')
-#picam2.start_recording(encoder2, 'test2.mjpeg', name="lores")
-#time.sleep(10)
-camera.wait_recording(15)
-camera.stop_recording()
+# --- Main Thread ---
+try:
+	print("Main thread running other tasks...")
+	time.sleep(10) # Perform other tasks for 10 seconds
+finally:
+	# Stop the recording
+	recording = False
+	record_thread.join()
+	picam2.stop()
+	
