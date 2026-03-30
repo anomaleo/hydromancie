@@ -7,6 +7,8 @@ config = picam2.create_video_configuration({'size': (1280, 1024), 'format': 'YUV
 picam2.configure(config)
 time.sleep(2)
 encoder = H264Encoder(bitrate=10000000)
+picam2.start()
+time.sleep(2)
 # encoder.audio = True
 output = PyavOutput("test.mp4")
 picam2.start_recording(encoder, output)
