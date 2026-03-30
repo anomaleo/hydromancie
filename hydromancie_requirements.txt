@@ -1,5 +1,4 @@
-Adafruit-Blinka==9.0.2
-Adafruit-Blinka-Raspberry-Pi5-Neopixel==1.0.0rc2
+Adafruit-Blinka==9.0.4
 adafruit-circuitpython-busdevice==5.2.15
 adafruit-circuitpython-connectionmanager==3.1.6
 adafruit-circuitpython-requests==4.1.15
@@ -46,7 +45,6 @@ lgpio==0.2.2.0
 linkify-it-py==2.0.3
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
-mcp3008==1.0.1
 mdurl==0.1.2
 more-itertools==10.7.0
 numpy==2.2.4
@@ -77,8 +75,6 @@ rich==13.9.4
 rpds-py==0.21.0
 rpi-keyboard-config==1.0
 rpi-lgpio==0.6
-RPi.GPIO==0.7.1
-rpi_ws281x==5.0.0
 scipy==1.15.3
 setuptools==78.1.1
 smbus2==0.4.3
@@ -261,7 +257,6 @@ typing_extensions==4.13.2
 uc-micro-py==1.0.3
 uritemplate==4.1.1
 urllib3==2.3.0
-wavio==0.0.9
 webcolors==1.13
 wheel==0.46.1
 zipp==3.21.0
