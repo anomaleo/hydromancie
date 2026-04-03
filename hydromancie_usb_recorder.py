@@ -12,7 +12,7 @@ sd.default.channels = 1
 sd.default.dtype = 'int16'
 print(sd.default.dtype)
 # print(sd.default.samplerate) 
-print(sd.default.channels)
+# print(sd.default.channels)
 assert numpy  # avoid "imported but unused" message (W0611)
 
 
