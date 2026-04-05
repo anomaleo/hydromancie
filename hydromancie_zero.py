@@ -21,12 +21,12 @@ b.direction = digitalio.Direction.OUTPUT
 r.value = g.value = b.value = 0
 
 # SHARED ACTIVATE SIGNAL - ARDUINO RPI
-we_are_go = digitalio.DigitalInOut(board.D4)
+we_are_go = digitalio.DigitalInOut(board.D18)
 we_are_go.direction = digitalio.Direction.INPUT
 we_are_go.pull = digitalio.Pull.UP
 
 # ACTIVATE CONTROL VARIABLE
-activate = 1 # we are a go ...
+activate = 0 # we are a go ...
 _prefix = -1 # RECORD FILE PREFIX NUMBER 
 
 
