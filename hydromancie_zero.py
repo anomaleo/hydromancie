@@ -9,12 +9,18 @@ print(os.getcwd())
 # PREFIX_FILE
 PREFIX_FILE = "hydromancie_prefix.txt"
 
-led = digitalio.DigitalInOut(board.D18)
-led.direction = digitalio.Direction.OUTPUT
+# STATUS RGB LED
+r = digitalio.DigitalInOut(board.D18)
+r.direction = digitalio.Direction.OUTPUT
+g = digitalio.DigitalInOut(board.D18)
+g.direction = digitalio.Direction.OUTPUT
+b = digitalio.DigitalInOut(board.D18)
+b.direction = digitalio.Direction.OUTPUT
 
-button = digitalio.DigitalInOut(board.D4)
-button.direction = digitalio.Direction.INPUT
-button.pull = digitalio.Pull.UP
+# SHARED ACTIVATE SIGNAL - ARDUINO RPI
+activate = digitalio.DigitalInOut(board.D4)
+activate.direction = digitalio.Direction.INPUT
+activate.pull = digitalio.Pull.UP
 
 
 def get_file_prefix():
@@ -40,6 +46,7 @@ def set_file_prefix(pre):
         print(f"The file {PREFIX_FILE} was not found")
     finally:
         return True
+
 
 if __name__ == '__main__':
     # FIRST: RETRIEVE LATEST PREFIX
