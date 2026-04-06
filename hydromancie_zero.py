@@ -50,7 +50,6 @@ def debug_status(led, flash, t):
     for _ in range(flash):
         led.value = not led.value
         time.sleep(t)
-        print("bleeped")
 
 
 def get_file_prefix():
@@ -76,42 +75,21 @@ def set_file_prefix(pre):
         print(f"The file {PREFIX_FILE} was not found")
     finally:
         return True
-
-# RECORDING THREAD SETUP
-#recording = True
-#
-#def record_video():
-#   # picam2.start_recording(encoder, 'test-again3.mjpeg')
-#   print("Recording started...")
-#   
-#   picam2.start_recording(encoder, _namer)
-#   picam2.wait_recording(VIDEO_TIME)
-#   # time.sleep(VIDEO_TIME)
-#   picam2.stop_recording()
-#   
-#   print("Recording stopped.")
-
-def we_are():
-    # ATTENDING GLOBAL ACTIVATION SIGNAL - EXTERNAL BUTTON SIGNAL
-    if not we_are_go.value:
-        time.sleep(1.0)
-        if not activate:
-            activate = 1
-            return 1
-        else:
-            print(f"We are go to go: access prefix_file, update filename and initiate record session")
-            debug_status(g, 4, 0.127) # GREEN LED ON = RECORDING OFF
-            activate = 0
-            return 0
-
+    
 
 if __name__ == '__main__':
 
     while True:
+        
         # ATTENDING GLOBAL ACTIVATION SIGNAL - EXTERNAL BUTTON SIGNAL
-        if not we_are():
-            print("exit while loop")
-            break
+        if not we_are_go.value:
+            time.sleep(1.0)
+            if not activate:
+                activate = 1
+            else:
+                print(f"We are go to go: access prefix_file, update filename and initiate record session")
+                debug_status(g, 2, 1.0) # GREEN LED ON = RECORDING OFF
+                activate = 0
 
 
         if activate:
@@ -121,29 +99,20 @@ if __name__ == '__main__':
             if _prefix is None:
                 print(f"ERROR: CHECK PREFIX_FILE!")
                 while True:
-                    debug_status(b, 7, 0.067)
-            else:
-                print(f"We are go to go: access prefix_file, update filename and initiate record session")
+                    debug_status(b, 1, 0.1)
 
             # START, SETUP CAMERA RECORDING SESSION...
             global _namer
             _namer = f"hydromancie_{_prefix}.h264"
             
             print("Recording started...")
-            debug_status(r, 4, 0.127)
+            debug_status(r, 1, 1.0)
             picam2.start_recording(encoder, _namer)
             # picam2.wait_recording(VIDEO_TIME)
             time.sleep(VIDEO_TIME)
             picam2.stop_recording()
-            debug_status(r, 4, 0.127)
+            debug_status(r, 1, 1.0)
             print("Recording stopped.")
-                
-#           _now_time = time.monotonic()
-#           while time.monotonic() - _now_time >= VIDEO_TIME:
-#               print("in loop")
-#               debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
-
-
             # CLEAN-UP CAMERA RECORDING SESSION...
 
 
@@ -152,14 +121,6 @@ if __name__ == '__main__':
             if _status is None:
                 print(f"ERROR: CHECK PREFIX_FILE!")
                 while True:
-                    debug_status(b, 7, 0.067)
-            else:
-                print(f"We are go to go: access prefix_file, update filename and initiate record session")
+                    debug_status(b, 1, 0.1)
 
-        # 
-        #if set_file_prefix(_prefix):
-        #   print("File Prefix Update")
-
-        #while True:
-        #    led.value = not button.value # light when button is pressed!
             
