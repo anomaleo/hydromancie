@@ -20,7 +20,7 @@ picam2.configure(video_config)
 encoder = H264Encoder(bitrate=25000000) # 1 MBP = 1000000 | 25 MBPS = 25 000 000
 picam2.start()
 
-VIDEO_TIME = 15000
+VIDEO_TIME = 15
 
 # PREFIX_FILE
 PREFIX_FILE = "hydromancie_prefix.txt"
@@ -125,7 +125,8 @@ if __name__ == '__main__':
             print("Recording started...")
             debug_status(r, 4, 0.127)
             picam2.start_recording(encoder, _namer)
-            picam2.wait_recording(VIDEO_TIME)
+            # picam2.wait_recording(VIDEO_TIME)
+            time.sleep(VIDEO_TIME)
             picam2.stop_recording()
             debug_status(r, 4, 0.127)
             print("Recording stopped.")
