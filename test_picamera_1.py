@@ -12,5 +12,5 @@ time.sleep(2)
 # encoder.audio = True
 output = PyavOutput("anomaleo1.mp4")
 picam2.start_recording(encoder, output)
-time.sleep(5)
+time.sleep(1)
 picam2.stop_recording()
