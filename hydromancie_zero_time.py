@@ -100,7 +100,7 @@ if __name__ == '__main__':
     debug_status(r, 1, 1.0)
     picam2.start_recording(encoder, _namer)
     # picam2.wait_recording(VIDEO_TIME)
-    time.sleep(VIDEO_TIME)
+    time.sleep(int(VIDEO_TIME))
     picam2.stop_recording()
     debug_status(r, 1, 1.0)
     print("Recording stopped.")
