@@ -18,7 +18,8 @@ video_config = picam2.create_video_configuration({"format": "YUV420", "size": (6
 picam2.configure(video_config)
 # encoder = JpegEncoder(q=73)
 encoder = H264Encoder(bitrate=25000000) # 1 MBP = 1000000 | 25 MBPS = 25 000 000
-# picam2.start()
+picam2.start()
+
 VIDEO_TIME = 15
 
 # PREFIX_FILE
@@ -123,20 +124,19 @@ if __name__ == '__main__':
             
 
             # Start the recording thread
-            picam2.start()
             record_thread = threading.Thread(target=record_video)
             record_thread.start()
 
             try:
                 _now_time = time.monotonic()
-                while time.monotonic() - _now_time < VIDEO_TIME:
+                while time.monotonic() - _now_time >= VIDEO_TIME:
                     #time.sleep(10) # Perform other tasks for 10 seconds
                     debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
             finally:
                 # Stop the recording
                 recording = False
                 record_thread.join()
-                picam2.stop()
+                # picam2.stop()
 
             # CLEAN-UP CAMERA RECORDING SESSION...
 
