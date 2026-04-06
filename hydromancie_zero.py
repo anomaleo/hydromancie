@@ -121,7 +121,7 @@ if __name__ == '__main__':
             global _namer
             _namer = f"hydromancie_{_prefix}.h264"
             
-            picam2.start()
+
             # Start the recording thread
             record_thread = threading.Thread(target=record_video)
             record_thread.start()
@@ -135,7 +135,7 @@ if __name__ == '__main__':
                 # Stop the recording
                 recording = False
                 record_thread.join()
-                picam2.stop()
+                # picam2.stop()
 
             # CLEAN-UP CAMERA RECORDING SESSION...
 
