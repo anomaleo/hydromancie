@@ -76,13 +76,27 @@ def set_file_prefix(pre):
     finally:
         return True
 
+# RECORDING THREAD SETUP
+recording = True
+
+def record_video():
+    # picam2.start_recording(encoder, 'test-again3.mjpeg')
+    picam2.start_recording(encoder, _namer)
+    
+    print("Recording started...")
+    time.sleep(10)
+    picam2.stop_recording()
+    
+    print("Recording stopped.")
+
+
 
 if __name__ == '__main__':
 
     while True:
         # ATTENDING GLOBAL ACTIVATION SIGNAL - EXTERNAL BUTTON SIGNAL
         if not we_are_go.value:
-            time.sleep(0.375)
+            time.sleep(1.0)
             if not activate:
                 activate = 1
             else:
@@ -103,13 +117,27 @@ if __name__ == '__main__':
                 print(f"We are go to go: access prefix_file, update filename and initiate record session")
 
             # START, SETUP CAMERA RECORDING SESSION...
+            global _namer
             _namer = f"hydromancie_{_prefix}.h264"
-            picam2.start_recording(encoder, _namer)
-            print("Recording started...")
-            time.sleep(10)
-            picam2.stop_recording()
-            print("Recording stopped.")
-            debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
+            # picam2.start_recording(encoder, _namer)
+            # print("Recording started...")
+            # time.sleep(10)
+            # picam2.stop_recording()
+            # print("Recording stopped.")
+            
+            # Start the recording thread
+            record_thread = threading.Thread(target=record_video)
+            record_thread.start()
+
+            try:
+                print("Main thread running other tasks...")
+                time.sleep(10) # Perform other tasks for 10 seconds
+                debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
+            finally:
+                # Stop the recording
+                recording = False
+                record_thread.join()
+                picam2.stop()
 
             # CLEAN-UP CAMERA RECORDING SESSION...
 
