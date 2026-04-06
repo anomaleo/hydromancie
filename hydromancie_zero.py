@@ -65,7 +65,6 @@ def get_file_prefix():
 
 
 def set_file_prefix(pre):
-
     try:
         if os.path.isfile(PREFIX_FILE):
             with open(PREFIX_FILE,"w", encoding="utf-8") as f:
@@ -99,7 +98,7 @@ if __name__ == '__main__':
             if _prefix is None:
                 print(f"ERROR: CHECK PREFIX_FILE!")
                 while True:
-                    debug_status(b, 1, 0.1)
+                    debug_status(b, 2, 0.1)
 
             # START, SETUP CAMERA RECORDING SESSION...
             global _namer
@@ -121,6 +120,6 @@ if __name__ == '__main__':
             if _status is None:
                 print(f"ERROR: CHECK PREFIX_FILE!")
                 while True:
-                    debug_status(b, 1, 0.1)
+                    debug_status(b, 2, 0.1)
 
             
