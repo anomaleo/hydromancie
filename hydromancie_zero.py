@@ -19,7 +19,7 @@ picam2.configure(video_config)
 # encoder = JpegEncoder(q=73)
 encoder = H264Encoder(bitrate=25000000) # 1 MBP = 1000000 | 25 MBPS = 25 000 000
 picam2.start()
-
+VIDEO_TIME = 15
 
 # PREFIX_FILE
 PREFIX_FILE = "hydromancie_prefix.txt"
@@ -81,10 +81,11 @@ recording = True
 
 def record_video():
     # picam2.start_recording(encoder, 'test-again3.mjpeg')
-    picam2.start_recording(encoder, _namer)
-    
     print("Recording started...")
-    time.sleep(10)
+    
+    picam2.start_recording(encoder, _namer)
+    picam2.wait_recording(VIDEO_TIME)
+    # time.sleep(10)
     picam2.stop_recording()
     
     print("Recording stopped.")
@@ -119,25 +120,22 @@ if __name__ == '__main__':
             # START, SETUP CAMERA RECORDING SESSION...
             global _namer
             _namer = f"hydromancie_{_prefix}.h264"
-            # picam2.start_recording(encoder, _namer)
-            # print("Recording started...")
-            # time.sleep(10)
-            # picam2.stop_recording()
-            # print("Recording stopped.")
             
+            picam2.start()
             # Start the recording thread
             record_thread = threading.Thread(target=record_video)
             record_thread.start()
 
             try:
-                print("Main thread running other tasks...")
-                time.sleep(10) # Perform other tasks for 10 seconds
-                debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
+                _now_time = time.monotonic()
+                while time.monotonic() - _now_time < VIDEO_TIME:
+                    #time.sleep(10) # Perform other tasks for 10 seconds
+                    debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
             finally:
                 # Stop the recording
                 recording = False
                 record_thread.join()
-                # picam2.stop()
+                picam2.stop()
 
             # CLEAN-UP CAMERA RECORDING SESSION...
 
