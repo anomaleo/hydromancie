@@ -5,6 +5,7 @@ import board
 import digitalio
 # ACCESS FILE SYSTEM
 import os
+import argparse
 # print(os.getcwd())
 
 from picamera2 import Picamera2
