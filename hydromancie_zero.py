@@ -85,8 +85,8 @@ def record_video():
     print("Recording started...")
     
     picam2.start_recording(encoder, _namer)
-    # picam2.wait_recording(VIDEO_TIME)
-    time.sleep(VIDEO_TIME)
+    picam2.wait_recording(VIDEO_TIME)
+    # time.sleep(VIDEO_TIME)
     picam2.stop_recording()
     
     print("Recording stopped.")
@@ -130,7 +130,7 @@ if __name__ == '__main__':
             try:
                 _now_time = time.monotonic()
                 while time.monotonic() - _now_time >= VIDEO_TIME:
-                    #time.sleep(10) # Perform other tasks for 10 seconds
+                    print("in loop")
                     debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
             finally:
                 # Stop the recording
