@@ -5,7 +5,7 @@ from libcamera import Transform
 from picamera2.encoders import JpegEncoder
 
 picam2 = Picamera2()
-video_config = picam2.create_video_configuration({"format": "YUV420", "size": (1280, 1024)}, transform=Transform(hflip=True, vflip=True))
+video_config = picam2.create_video_configuration({"format": "YUV420", "size": (640, 480)}, transform=Transform(hflip=True, vflip=True))
 picam2.configure(video_config)
 encoder = JpegEncoder(q=73)
 picam2.start()
