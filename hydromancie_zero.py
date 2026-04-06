@@ -78,18 +78,18 @@ def set_file_prefix(pre):
         return True
 
 # RECORDING THREAD SETUP
-recording = True
-
-def record_video():
-    # picam2.start_recording(encoder, 'test-again3.mjpeg')
-    print("Recording started...")
-    
-    picam2.start_recording(encoder, _namer)
-    picam2.wait_recording(VIDEO_TIME)
-    # time.sleep(VIDEO_TIME)
-    picam2.stop_recording()
-    
-    print("Recording stopped.")
+#recording = True
+#
+#def record_video():
+#   # picam2.start_recording(encoder, 'test-again3.mjpeg')
+#   print("Recording started...")
+#   
+#   picam2.start_recording(encoder, _namer)
+#   picam2.wait_recording(VIDEO_TIME)
+#   # time.sleep(VIDEO_TIME)
+#   picam2.stop_recording()
+#   
+#   print("Recording stopped.")
 
 
 
@@ -124,18 +124,27 @@ if __name__ == '__main__':
             
 
             # Start the recording thread
-            record_thread = threading.Thread(target=record_video)
-            record_thread.start()
+            # record_thread = threading.Thread(target=record_video)
+            # record_thread.start()
 
             try:
+    
+                    
+                print("Recording started...")
+                picam2.start_recording(encoder, _namer)
+                # picam2.wait_recording(VIDEO_TIME)
+                
                 _now_time = time.monotonic()
                 while time.monotonic() - _now_time >= VIDEO_TIME:
                     print("in loop")
                     debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
+
             finally:
                 # Stop the recording
-                recording = False
-                record_thread.join()
+                picam2.stop_recording()
+                print("Recording stopped.")
+                # recording = False
+                # record_thread.join()
                 # picam2.stop()
 
             # CLEAN-UP CAMERA RECORDING SESSION...
