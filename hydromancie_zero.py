@@ -1,10 +1,25 @@
-# RPI-ZERO-2W 
+# RPI-ZERO-2W - PICAMERA
 import time
+import threading
 import board
 import digitalio
 # ACCESS FILE SYSTEM
 import os
 # print(os.getcwd())
+
+from picamera2 import Picamera2
+from libcamera import Transform
+from picamera2.encoders import H264Encoder
+# from picamera2.encoders import JpegEncoder
+# from picamera2.outputs import PyavOutput
+
+picam2 = Picamera2()
+video_config = picam2.create_video_configuration({"format": "YUV420", "size": (640, 480)}, transform=Transform(hflip=True, vflip=True))
+picam2.configure(video_config)
+# encoder = JpegEncoder(q=73)
+encoder = H264Encoder(bitrate=25000000) # 1 MBP = 1000000 | 25 MBPS = 25 000 000
+picam2.start()
+
 
 # PREFIX_FILE
 PREFIX_FILE = "hydromancie_prefix.txt"
@@ -87,8 +102,12 @@ if __name__ == '__main__':
             print(f"We are go to go: access prefix_file, update filename and initiate record session")
 
         # START, SETUP CAMERA RECORDING SESSION...
-
-        time.sleep(5)
+        _namer = f"hydromancie_{_prefix}.h264"
+        picam2.start_recording(encoder, _namer)
+        print("Recording started...")
+        time.sleep(10)
+        picam2.stop_recording()
+        print("Recording stopped.")
         debug_status(r, 4, 0.127) # RED LED ON = RECORDING ON
 
         # CLEAN-UP CAMERA RECORDING SESSION...
@@ -109,3 +128,4 @@ if __name__ == '__main__':
 
         #while True:
         #    led.value = not button.value # light when button is pressed!
+            
