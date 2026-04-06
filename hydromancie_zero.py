@@ -91,20 +91,27 @@ def set_file_prefix(pre):
 #   
 #   print("Recording stopped.")
 
+def we_are():
+    # ATTENDING GLOBAL ACTIVATION SIGNAL - EXTERNAL BUTTON SIGNAL
+    if not we_are_go.value:
+        time.sleep(1.0)
+        if not activate:
+            activate = 1
+            return 1
+        else:
+            print(f"We are go to go: access prefix_file, update filename and initiate record session")
+            debug_status(g, 4, 0.127) # GREEN LED ON = RECORDING OFF
+            activate = 0
+            return 0
 
 
 if __name__ == '__main__':
 
     while True:
         # ATTENDING GLOBAL ACTIVATION SIGNAL - EXTERNAL BUTTON SIGNAL
-        if not we_are_go.value:
-            time.sleep(1.0)
-            if not activate:
-                activate = 1
-            else:
-                print(f"We are go to go: access prefix_file, update filename and initiate record session")
-                debug_status(g, 4, 0.127) # GREEN LED ON = RECORDING OFF
-                activate = 0
+        if not we_are():
+            print("exit while loop")
+            break
 
 
         if activate:
