@@ -125,7 +125,7 @@ if __name__ == '__main__':
             print("Recording started...")
             debug_status(r, 4, 0.127)
             picam2.start_recording(encoder, _namer)
-            # picam2.wait_recording(VIDEO_TIME)
+            picam2.wait_recording(VIDEO_TIME)
             picam2.stop_recording()
             debug_status(r, 4, 0.127)
             print("Recording stopped.")
