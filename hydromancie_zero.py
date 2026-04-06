@@ -20,7 +20,7 @@ picam2.configure(video_config)
 encoder = H264Encoder(bitrate=25000000) # 1 MBP = 1000000 | 25 MBPS = 25 000 000
 picam2.start()
 
-VIDEO_TIME = 15
+VIDEO_TIME = 15000
 
 # PREFIX_FILE
 PREFIX_FILE = "hydromancie_prefix.txt"
