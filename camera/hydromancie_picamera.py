@@ -1,11 +1,13 @@
-import threading
 import time
+import threading
 from picamera2 import Picamera2
+from libcamera import Transform
+from picamera2.encoders import JpegEncoder
 
-# Create the camera object
 picam2 = Picamera2()
-config = picam2.create_video_configuration()
-picam2.configure(config)
+video_config = picam2.create_video_configuration({"format": "YUV420", "size": (1280, 1024)}, transform=Transform(hflip=True, vflip=True))
+picam2.configure(video_config)
+encoder = JpegEncoder(q=73)
 picam2.start()
 
 # Flag to stop the thread
@@ -13,11 +15,12 @@ recording = True
 
 def record_video():
     """Function to be run in a separate thread"""
-    picam2.start_recording("output.mp4")
+    picam2.start_recording(encoder, 'test-again2.mjpeg')
+    
     print("Recording started...")
-    while recording:
-        time.sleep(1) # Keep the thread alive
+    time.sleep(10)
     picam2.stop_recording()
+    
     print("Recording stopped.")
 
 # Start the recording thread
@@ -33,3 +36,4 @@ finally:
     recording = False
     record_thread.join()
     picam2.stop()
+    
