@@ -5,11 +5,11 @@ from picamera2 import Picamera2
 from picamera2.encoders import JpegEncoder
 
 picam2 = Picamera2()
-video_config = picam2.create_video_configuration({"format": "YUV420", "size": (1280, 720)})
+video_config = picam2.create_video_configuration({"format": "YUV420", "size": (640, 480)})
 picam2.configure(video_config)
-encoder = JpegEncoder(q=70)
+encoder = JpegEncoder(q=73)
 
-picam2.start_recording(encoder, 'test.mjpeg')
+picam2.start_recording(encoder, 'test-again.mjpeg')
 time.sleep(5)
 picam2.stop_recording()
 
