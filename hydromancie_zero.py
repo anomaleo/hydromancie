@@ -137,7 +137,7 @@ if __name__ == '__main__':
                 # Stop the recording
                 recording = False
                 record_thread.join()
-                picam2.stop()
+                # picam2.stop()
 
             # CLEAN-UP CAMERA RECORDING SESSION...
 
