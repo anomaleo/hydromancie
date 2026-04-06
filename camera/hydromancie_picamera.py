@@ -22,8 +22,8 @@ def record_video():
     picam2.start_recording(encoder, 'test-again3.h264')
     
     print("Recording started...")
-    # time.sleep(10)
-    picam2.wait_recording(15)
+    time.sleep(10)
+    # picam2.wait_recording(15)
     picam2.stop_recording()
     
     print("Recording stopped.")
@@ -38,7 +38,7 @@ try:
     _time = time.monotonic()
     while time.monotonic() - _time > 10000:
         print("in time")
-        time.sleep(10) # Perform other tasks for 10 seconds
+        # time.sleep(10) # Perform other tasks for 10 seconds
 finally:
     # Stop the recording
     recording = False
