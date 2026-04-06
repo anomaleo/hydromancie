@@ -14,3 +14,4 @@ output = PyavOutput("anomaleo2.mp4")
 picam2.start_recording(encoder, "anomaleo.h264")
 time.sleep(10)
 picam2.stop_recording()
+  
