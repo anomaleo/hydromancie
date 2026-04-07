@@ -89,7 +89,7 @@ if __name__ == '__main__':
     if _prefix is None:
         print(f"ERROR: CHECK PREFIX_FILE!")
         while True:
-            debug_status(b, 2, 0.1)
+            debug_status(b, 16, 0.1)
 
     # START, SETUP CAMERA RECORDING SESSION...
     global _namer
@@ -112,4 +112,4 @@ if __name__ == '__main__':
     if _status is None:
         print(f"ERROR: CHECK PREFIX_FILE!")
         while True:
-            debug_status(b, 2, 0.1)
+            debug_status(b, 16, 0.1)
